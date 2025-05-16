@@ -137,7 +137,7 @@ function addToCart(productId) {
     }
 }
 
-// Handle add to cart button clicks
+
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('add-to-cart')) {
         const productId = parseInt(e.target.getAttribute('data-id'));
@@ -241,7 +241,7 @@ function renderCartPage() {
     }
 }
 
-// Contact form submission
+
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
@@ -256,7 +256,7 @@ if (contactForm) {
     });
 }
 
-// Initialize when DOM is ready
+
 document.addEventListener('DOMContentLoaded', function() {
     displayFeaturedProducts();
     displayAllProducts();
