@@ -1,14 +1,15 @@
-// Mobile Menu Toggle
+// To handle mobile menu toggle button
 const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
 const navMenu = document.querySelector('nav ul');
 
 mobileMenuBtn.addEventListener('click', () => {
+    // To toggle the navigation menu open/close
     navMenu.classList.toggle('active');
     mobileMenuBtn.innerHTML = navMenu.classList.contains('active') ? 
         '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
 });
 
-// Close mobile menu when clicking on a link
+// To close mobile menu when a nav link is clicked
 document.querySelectorAll('nav ul li a').forEach(link => {
     link.addEventListener('click', () => {
         navMenu.classList.remove('active');
@@ -16,13 +17,13 @@ document.querySelectorAll('nav ul li a').forEach(link => {
     });
 });
 
-// Header scroll effect
+// To add scroll effect to header (e.g., shadow or background change)
 window.addEventListener('scroll', () => {
     const header = document.querySelector('header');
     header.classList.toggle('scrolled', window.scrollY > 50);
 });
 
-// Product data
+// To store product details in an array
 const products = [
     { id: 1, name: "Essential Black Tee", price: 49.99, category: "clothing", image: "images/t shirt.jpg", featured: true },
     { id: 2, name: "Minimalist Hoodie", price: 89.99, category: "clothing", image: "images/hoodie.jpg", featured: true },
@@ -32,7 +33,7 @@ const products = [
     { id: 6, name: "Oversized T-Shirt", price: 54.99, category: "clothing", image: "images/baggy.jpeg", featured: false }
 ];
 
-// Display featured products on homepage
+// To display featured products on homepage
 function displayFeaturedProducts() {
     const featuredContainer = document.getElementById('featured-products');
     if (featuredContainer) {
@@ -50,7 +51,7 @@ function displayFeaturedProducts() {
     }
 }
 
-// Display all products on shop page
+// To display all products on the shop page with filtering/sorting
 function displayAllProducts() {
     const productsContainer = document.getElementById('all-products');
     if (productsContainer) {
@@ -65,6 +66,7 @@ function displayAllProducts() {
             `;
         });
 
+        // To filter products by category
         const categoryFilter = document.getElementById('category');
         if (categoryFilter) {
             categoryFilter.addEventListener('change', function() {
@@ -76,6 +78,7 @@ function displayAllProducts() {
             });
         }
 
+        // To sort products by price (low to high or high to low)
         const sortFilter = document.getElementById('sort');
         if (sortFilter) {
             sortFilter.addEventListener('change', function() {
@@ -91,9 +94,10 @@ function displayAllProducts() {
     }
 }
 
-// Cart functionality
+// To initialize or retrieve the shopping cart from localStorage
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
+// To update the quantity of an item in the cart
 function updateQuantity(productId, quantity) {
     const item = cart.find(p => p.id === productId);
     if (item) {
@@ -104,16 +108,19 @@ function updateQuantity(productId, quantity) {
     }
 }
 
+// To remove an item from the cart
 function removeFromCart(productId) {
     cart = cart.filter(p => p.id !== productId);
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartCount();
 }
 
+// To calculate the total cost of items in the cart
 function calculateTotal() {
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 }
 
+// To update the cart icon with the current total quantity
 function updateCartCount() {
     const cartCountEl = document.getElementById('cart-count');
     if (cartCountEl) {
@@ -122,6 +129,7 @@ function updateCartCount() {
     }
 }
 
+// To add an item to the cart
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     if (product) {
@@ -137,7 +145,7 @@ function addToCart(productId) {
     }
 }
 
-
+// To handle click events for "Add to Cart" buttons
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('add-to-cart')) {
         const productId = parseInt(e.target.getAttribute('data-id'));
@@ -145,6 +153,7 @@ document.addEventListener('click', function(e) {
     }
 });
 
+// To display the cart page items and manage interactions
 function renderCartPage() {
     const cartItemsContainer = document.getElementById('cart-items-page');
     const cartSubtotal = document.getElementById('cart-subtotal');
@@ -153,8 +162,10 @@ function renderCartPage() {
     const emptyCartMsg = document.querySelector('.empty-cart-message');
 
     if (cartItemsContainer) {
+        // To remove existing cart items before re-rendering
         document.querySelectorAll('.cart-item').forEach(item => item.remove());
 
+        // To display empty cart message and zero totals
         if (cart.length === 0) {
             if (emptyCartMsg) emptyCartMsg.style.display = 'block';
             if (cartSubtotal) cartSubtotal.textContent = '$0.00';
@@ -165,6 +176,7 @@ function renderCartPage() {
 
         if (emptyCartMsg) emptyCartMsg.style.display = 'none';
 
+        // To render each item in the cart
         cart.forEach(item => {
             const cartItem = document.createElement('div');
             cartItem.className = 'cart-item';
@@ -184,6 +196,7 @@ function renderCartPage() {
             cartItemsContainer.insertBefore(cartItem, emptyCartMsg);
         });
 
+        // To calculate and display subtotal, shipping, and total
         const subtotal = calculateTotal();
         const shipping = subtotal > 0 ? 5.00 : 0.00;
         const total = subtotal + shipping;
@@ -192,6 +205,7 @@ function renderCartPage() {
         if (cartShipping) cartShipping.textContent = `$${shipping.toFixed(2)}`;
         if (cartTotal) cartTotal.textContent = `$${total.toFixed(2)}`;
 
+        // To handle decreasing quantity
         document.querySelectorAll('.decrease').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = parseInt(e.target.getAttribute('data-id'));
@@ -203,6 +217,7 @@ function renderCartPage() {
             });
         });
 
+        // To handle increasing quantity
         document.querySelectorAll('.increase').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = parseInt(e.target.getAttribute('data-id'));
@@ -211,6 +226,7 @@ function renderCartPage() {
             });
         });
 
+        // To manually update quantity via input
         document.querySelectorAll('.quantity-input').forEach(input => {
             input.addEventListener('change', (e) => {
                 const id = parseInt(e.target.getAttribute('data-id'));
@@ -219,6 +235,7 @@ function renderCartPage() {
             });
         });
 
+        // To handle item removal from cart
         document.querySelectorAll('.remove-item').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = parseInt(e.target.getAttribute('data-id'));
@@ -227,6 +244,7 @@ function renderCartPage() {
             });
         });
 
+        // To handle checkout button click
         const checkoutBtn = document.getElementById('proceed-checkout');
         if (checkoutBtn) {
             checkoutBtn.addEventListener('click', () => {
@@ -241,7 +259,7 @@ function renderCartPage() {
     }
 }
 
-
+// To handle contact form submission
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
@@ -256,7 +274,7 @@ if (contactForm) {
     });
 }
 
-
+// To initialize the page content once DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     displayFeaturedProducts();
     displayAllProducts();
